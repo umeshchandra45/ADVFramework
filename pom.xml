@@ -1,0 +1,224 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.robinhood</groupId>
+	<artifactId>RobinHood</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+
+		<!--Selenium Maven Dependency-->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.18.1</version>
+		</dependency>
+
+		<!--Excel Dependency-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.2</version>
+		</dependency>
+
+		<!--TestNG Dependency-->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.10.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--Extent Report Dependency-->
+		<dependency>
+			<groupId>com.relevantcodes</groupId>
+			<artifactId>extentreports</artifactId>
+			<version>2.41.2</version>
+		</dependency>
+
+		<!--Log4J  Report Dependency-->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.36</version>
+		</dependency>
+
+		<!--maven-surefire-plugin Dependency for running tests and the type can de decide in type to be Test scope
+		or as we are internally using TestNG so we are using in the both the places for managing the tests.-->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>3.0.0</version>
+			<type>maven-plugin</type>
+		</dependency>
+
+
+		<!--PDF Dependency for PDF Validation-->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.27</version>
+		</dependency>
+		<!-- Log4j API Dependency  -->
+		<dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.20.0</version>
+    </dependency>
+
+    <!-- Log4j Core -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.20.0</version>
+    </dependency>
+    
+    
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore><!--
+					testFailureIgnore=true: Even if tests fail, the Maven build
+					will continue.-->
+					<skipTests>false</skipTests><!-- <skipTests=false: Tests
+					will be executed as part of the build process. -->
+					<parallel>methods</parallel>  <!-- Parallelize by methods,
+					classes, or tests -->
+					<threadCount>4</threadCount>  <!-- Number of threads to use -->
+					<suiteXmlFiles>
+						<!--<suiteXmlFile>
+							src/test/resources/TestNGSuiteFiles/Regression_TestNG.xml</suiteXmlFile>-->
+						<!--<exclude>src/test/resources/TestNGSuiteFiles/Sanity_TestNG.xml</exclude>
+                        <exclude>src/test/resources/TestNGSuiteFiles/Smoke_TestNG.xml</exclude>-->
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+
+			<!-- The below one is for compyling the source code-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version> <!-- Latest version of Maven Compiler
+				Plugin -->
+				<configuration>
+					<source>21</source> <!-- Java source version -->
+					<target>21</target>  <!--Java bytecode version -->
+				</configuration>
+			</plugin>
+
+
+			<!--The maven-install-plugin is used to install your project’s built artifacts (JARs, WARs, etc.) into your local Maven repository (typically located in ~/.m2/repository)-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>3.0.0-M1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.16.0</version>
+				<configuration>
+					<excludeRoots>
+						<excludeRoot>
+							${project.build.directory}/generated-sources</excludeRoot> Excludes generated source code from PMD analysis to avoid unnecessary noise from non-handwritten code.
+					</excludeRoots>
+					<includeTests>true</includeTests> Includes test code in the analysis to ensure test code is also up to coding standards. 
+					<linkXRef>false</linkXRef> Disables cross-reference links in the report 
+					<minimumTokens>200</minimumTokens> Sets a minimum token limit of 200 for detecting duplicated code via PMD's Copy-Paste Detector (CPD). 
+					<printFailingErrors>true</printFailingErrors> Prints detailed error messages in the console when there are violations Regarding the code.
+					<rulesets>
+					<ruleset>
+					${basedir}/config/pmd.xml
+					</ruleset>
+					</rulesets> Uses a custom ruleset (pmd.xml) from the project’s config directory to define which rules to enforce.
+				</configuration>
+				<executions>
+					<execution>
+						<id>pmd</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>check</goal>
+							<goal>cpd-check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>-->
+			<!-- The Below commented code will be used on a need basis.-->
+			<!--
+        
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.0.0-M1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>deploy</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>-->
+		</plugins>
+
+
+		<!--<pluginManagement>
+			<plugins>
+				This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-pmd-plugin
+										</artifactId>
+										<versionRange>
+											[3.16.0,)
+										</versionRange>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>-->
+	</build>
+</project>

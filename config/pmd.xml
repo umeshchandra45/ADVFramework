@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<ruleset name="Custom PMD RuleSet for Automation Project"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 
+                             http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+         
+          Example: Basic Java Best Practices 
+    <rule ref="category/java/bestpractices.xml/AvoidDuplicateLiterals"/>
+    <rule ref="category/java/codestyle.xml/ControlStatementBraces"/>
+    <rule ref="category/java/errorprone.xml/NullAssignment"/>
+    
+      Example: Custom rule to avoid test methods being too long 
+    <rule name="TestMethodTooLong"
+          
+          message="Test methods should not have more than 50 lines."
+          class="net.sourceforge.pmd.lang.rule.AbstractJavaRule">
+        <description>Test methods should be concise and avoid excessive length.</description>
+        <properties>
+            <property name="minimum" value="50"/>
+        </properties>
+    </rule>
+
+</ruleset>-->
+
